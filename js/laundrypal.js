@@ -36,18 +36,33 @@ $(function() {
 	Selections.prototype.ensureClientUp = function(id) {
 		this.machines[id].on = true;
 		var name = this.machines[id].name;
-		$('[data-value="'+name+'"]').addClass('available');
+		$('[data-value="'+name+'"]').switchClass('unavailable claimed', 'unclaimed');
+		console.log('client "'+id+'" is up');
+	};
+
+	Selections.prototype.ensureClientStarted = function(id, started) {
+		var name = this.machines[id].name;
+		this.machines[id].occupied = started;
+		if (started) {
+			this.machines[id].startTime = new Date();
+			console.log($('[data-value="'+name+'"]').attr('class'));
+			$('[data-value="'+name+'"]').switchClass('unavailable', 'claimed');
+			console.log('client "'+id+'" is busy');
+		} else {
+			this.machines[id].startTime = null;
+			$('[data-value="'+name+'"]').switchClass('claimed unavailable', 'unclaimed');
+			console.log('client "'+id+'" is not busy');
+		}
 	};
 
 	Selections.prototype.route = function(topic, payload) {
 		var topicSegments = topic ? topic.split('/') : null;
 		var clientId = topicSegments.length >= 3 ? topicSegments[2] : null;
 
-		console.log(typeof(payload.started));
 		if (payload.info == "bootup" && clientId) {
 			this.ensureClientUp(clientId);
-		} else if (typeof(payload.started) === 'Boolean') {
-			
+		} else if (typeof(payload.started) === 'boolean') {
+			this.ensureClientStarted(clientId, payload.started);
 		}
 	};
 
@@ -58,13 +73,13 @@ $(function() {
 	for (var i in sel.people) {
 		var val = sel.people[i].name;
 		var grav = sel.people[i].gravatar;
-		$tr.append('<td><img src="http://www.gravatar.com/avatar/'+grav+'" class="person" data-value="'+val+'"/>');
+		$tr.append('<td><img src="http://www.gravatar.com/avatar/'+grav+'?s=200" class="person" data-value="'+val+'"/>');
 	}
 
 	$tr = $table.append('<tr/>').children().last();
 	for (var i in sel.machines) {
 		var val = sel.machines[i].name;
-		$tr.append('<td><div class="machine unselected" data-value="'+val+'">'+val+'</div>');
+		$tr.append('<td><div class="machine unavailable" data-value="'+val+'">'+val+'</div>');
 	}
 
 	$(".person").draggable();
@@ -74,7 +89,6 @@ $(function() {
 
 			// make it go back to where it started
 			$dragElem.css({top:'auto', left:'auto'});
-			$(this).switchClass('unselected', 'selected');
 		}
 	});
 	$('.machine,.person').each(function() {

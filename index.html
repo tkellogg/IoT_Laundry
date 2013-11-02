@@ -22,19 +22,19 @@
 				padding: 50px 50px 50px 50px;
 			}
 			.machine, .person {
-				/*margin: 50px 50px 50px 50px;*/
-				height:100px; 
-				width:100px;
+				height:200px; 
+				width:200px;
 			}
 			.selected.machine {
-				height:130px;
-				width:130px;
 			}
-			.machine {
-				background-color: red;
+			.machine.unavailable {
+				background-image: url('images/LaundryPalNotReady2.png');
 			}
-			.machine.available {
-				background-color: green;
+			.machine.unclaimed {
+				background-image: url('images/LaundryPalReady1.png');
+			}
+			.machine.claimed {
+				background-image: url('images/LaundryPalInUse.png');
 			}
 			.person {
 				/*background-color: blue;*/
