@@ -12,13 +12,34 @@
 
 		<!--<script src="js/vendor/modernizr-2.6.2.min.js"></script>-->
 		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
 
 		<!-- Optional theme -->
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap-theme.min.css">
-
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<style>
+			#machine-selector td {
+				padding: 50px 50px 50px 50px;
+			}
+			.machine, .person {
+				/*margin: 50px 50px 50px 50px;*/
+				height:100px; 
+				width:100px;
+			}
+			.selected.machine {
+				height:130px;
+				width:130px;
+			}
+			.machine {
+				background-color: red;
+			}
+			.machine.available {
+				background-color: green;
+			}
+			.person {
+				/*background-color: blue;*/
+			}
+		</style>
 	</head>
 	<body>
 		<!--[if lt IE 7]>
@@ -26,10 +47,19 @@
 		<![endif]-->
 
 		<!-- Add your site or application content here -->
-		<p>Hello world! This is HTML5 Boilerplate.</p>
+		<table id="machine-selector">
+		</table>
+
+		<div id="mqtt-iframe"></div>
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+		<script src="js/mqtt-ws.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/commet.js"></script>
+		<script src="js/mqtt-ws.js"></script>
 		<script src="js/laundrypal.js"></script>
+
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	</body>
 </html>
