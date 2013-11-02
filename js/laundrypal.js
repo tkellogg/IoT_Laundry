@@ -40,12 +40,18 @@ $(function() {
 		console.log('client "'+id+'" is up');
 	};
 
+	Selections.prototype.ensureClientDown = function(id) {
+		this.machines[id].on = false;
+		var name = this.machines[id].name;
+		$('[data-value="'+name+'"]').switchClass('unclaimed claimed', 'unavailable');
+		console.log('client "'+id+'" is down');
+	};
+
 	Selections.prototype.ensureClientStarted = function(id, started) {
 		var name = this.machines[id].name;
 		this.machines[id].occupied = started;
 		if (started) {
 			this.machines[id].startTime = new Date();
-			console.log($('[data-value="'+name+'"]').attr('class'));
 			$('[data-value="'+name+'"]').switchClass('unavailable', 'claimed');
 			console.log('client "'+id+'" is busy');
 		} else {
@@ -61,6 +67,8 @@ $(function() {
 
 		if (payload.info == "bootup" && clientId) {
 			this.ensureClientUp(clientId);
+		} else if (payload.info == "shutdown" && clientId) {
+			this.ensureClientDown(clientId);
 		} else if (typeof(payload.started) === 'boolean') {
 			this.ensureClientStarted(clientId, payload.started);
 		}
